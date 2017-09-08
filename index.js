@@ -1,10 +1,20 @@
 const { exec  } = require('child_process');
+const BranchCollection = require('./branch/BranchCollection');
+
+const branchCollection = new BranchCollection();
+
+exec('git remote get-url origin', (err, stdout, stderr) => {
+    if (err) {
+        throw err;
+    }
+
+    branchCollection.initGitModel(stdout);
+});
 
 exec('git branch', (err, stdout, stderr) => {
     if (err) {
-        return;
+        throw err;
     }
 
-    console.log(`stdout: ${stdout}`);
-    console.log(`stderr: ${stderr}`);
+    console.log(stdout);
 });
