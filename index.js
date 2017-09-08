@@ -16,5 +16,7 @@ exec('git branch', (err, stdout, stderr) => {
         throw err;
     }
 
-    console.log(stdout);
+    branchCollection.initBranchModels(stdout);
+
+    console.log(branchCollection);
 });
