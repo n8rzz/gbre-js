@@ -1,0 +1,11 @@
+{
+  "name": "gbre",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Nate Geslin",
+  "license": "MIT",
+  "scripts": {
+    "gbre": "node ./index.js"
+  },
+  "dependencies": {}
+}
