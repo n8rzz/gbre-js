@@ -1,5 +1,15 @@
 const { exec  } = require('child_process');
+const chalk = require('chalk');
+const Spinner = require('cli-spinner').Spinner;
 const BranchCollection = require('./branch/BranchCollection');
+
+Spinner.setDefaultSpinnerDelay(125);
+
+const spinner = new Spinner();
+spinner.setSpinnerString(27);
+spinner.start();
+
+console.log(`${chalk.green('[1/3]')} Extracting local git branches`);
 
 const branchCollection = new BranchCollection();
 
@@ -16,7 +26,9 @@ exec('git branch', (err, stdout, stderr) => {
         throw err;
     }
 
-    branchCollection.initBranchModels(stdout);
+    console.log(`${chalk.green('[2/3]')} Requesting branch data from GitHub: ${chalk.cyan(branchCollection.gitModel.buildApiUrl())}`);
 
-    console.log(branchCollection);
+    branchCollection.initBranchModels(stdout);
+    branchCollection.displayBranchTable();
+    spinner.stop();
 });

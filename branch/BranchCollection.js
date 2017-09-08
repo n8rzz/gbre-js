@@ -1,3 +1,4 @@
+const chalk = require('chalk');
 const GitModel = require('../gitModel/GitModel');
 const BranchModel = require('./BranchModel');
 
@@ -36,6 +37,10 @@ BranchCollection.prototype.addItems = function addItems(itemList) {
 
 BranchCollection.prototype.addItem = function addItem(branchModel) {
     this.items.push(branchModel);
+};
+
+BranchCollection.prototype.displayBranchTable = function displayBranchTable() {
+    console.log(chalk.green('[3/3] Operation complete!'));
 };
 
 BranchCollection.prototype._extractBranchListFromStr = function _extractBranchListFromStr(str) {

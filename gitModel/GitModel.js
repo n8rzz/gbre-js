@@ -24,7 +24,7 @@ GitModel.prototype.fromRemoteUrl = function fromRemoteUrl(url) {
 }
 
 GitModel.prototype.buildApiUrl = function buildApiUrl() {
-    return `https://api.github.com/repos/${this.name}/${this.repo}`;
+    return `https://api.github.com/repos/${this.owner}/${this.repo}`;
 }
 
 module.exports = GitModel;
