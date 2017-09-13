@@ -2,15 +2,23 @@ const LINE_BREAK_REGEX = /(\r\n|\n|\r)/gm;
 const OWNER_INDEX = 1;
 const REPO_INDEX = 2;
 
-function GitModel(rawUrlStr) {
-    return this._init(rawUrlStr);
+function GitModel() {
+    return this._init();
 }
 
-GitModel.prototype._init = function _init(rawUrlStr) {
+GitModel.prototype._init = function _init() {
+    this.owner = '';
+    this.repo = '';
+
+    return this;
+};
+
+GitModel.prototype.init = function init(rawUrlStr) {
     const urlSegments = this.fromRemoteUrl(rawUrlStr);
+    const repoNameWithoutExtension = urlSegments[REPO_INDEX].split('.git')[0];
 
     this.owner = urlSegments[OWNER_INDEX];
-    this.repo = urlSegments[REPO_INDEX];
+    this.repo = repoNameWithoutExtension;
 
     return this;
 }
@@ -23,7 +31,7 @@ GitModel.prototype.fromRemoteUrl = function fromRemoteUrl(url) {
     return urlChunks;
 }
 
-GitModel.prototype.buildApiUrl = function buildApiUrl() {
+GitModel.prototype.apiUrl = function apiUrl() {
     return `https://api.github.com/repos/${this.owner}/${this.repo}`;
 }
 

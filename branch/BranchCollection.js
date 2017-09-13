@@ -1,5 +1,4 @@
 const chalk = require('chalk');
-const GitModel = require('../gitModel/GitModel');
 const BranchModel = require('./BranchModel');
 
 const WHITESPACE_REGEX = / /g;
@@ -10,14 +9,9 @@ function BranchCollection() {
 }
 
 BranchCollection.prototype._init = function _init() {
-    this.gitModel = null;
     this.items = [];
 
     return this;
-};
-
-BranchCollection.prototype.initGitModel = function initGitModel(rawUrlStr) {
-    this.gitModel = new GitModel(rawUrlStr);
 };
 
 BranchCollection.prototype.initBranchModels = function initBranchModels(branchStr) {
@@ -39,6 +33,17 @@ BranchCollection.prototype.addItem = function addItem(branchModel) {
     this.items.push(branchModel);
 };
 
+BranchCollection.prototype.getBranchStatusAndTitlesForCollection = function getBranchStatusAndTitlesForCollection(gitModel) {
+    const apiRoot = gitModel.apiUrl();
+    const issueBranchList = this._findIssueBranchList();
+
+    for (let i = 0; i < issueBranchList.length; i++) {
+        const item = issueBranchList[i];
+
+        console.log('+++', `${apiRoot}/issues/${item.issueNumber}`);
+    }
+};
+
 BranchCollection.prototype.displayBranchTable = function displayBranchTable() {
     console.log(chalk.green('[3/3] Operation complete!'));
 };
@@ -54,6 +59,12 @@ BranchCollection.prototype._extractBranchListFromStr = function _extractBranchLi
     }, []);
 
     return trimmedBranchList;
+};
+
+BranchCollection.prototype._findIssueBranchList = function _findIssueBranchList() {
+    const issueBranchList = this.items.filter(branchModel => branchModel.isIssueBranch());
+
+    return issueBranchList;
 };
 
 module.exports = BranchCollection;
